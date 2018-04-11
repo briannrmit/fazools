@@ -10,7 +10,7 @@ root = tk.Tk()
 
 canvas = tk.Canvas(root, width=1400, height=1000)
 canvas.pack()
-image = ImageTk.PhotoImage(file="board.png")
+image = ImageTk.PhotoImage(file="board1.png")
 canvas.create_image(20,100, image=image,anchor = NW)
 
 #option menu buttons hosting area
