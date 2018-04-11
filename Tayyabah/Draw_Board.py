@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import *
 from PIL import ImageTk
-
+import os
+path=os.getcwd
 
 root = tk.Tk()
 
