@@ -11,11 +11,16 @@ def drawTrain():
 
 def function():
     global carriageText
-    carriage1.config(background=drawTrain())
-    carriage2.config(background=drawTrain())
-    carriage3.config(background=drawTrain())
-    carriage4.config(background=drawTrain())
-    carriage5.config(background=drawTrain())
+    carriage1colour = drawTrain()
+    carriage2colour = drawTrain()
+    carriage3colour = drawTrain()
+    carriage4colour = drawTrain()
+    carriage5colour = drawTrain()
+    carriage1.config(background=carriage1colour, highlightbackground =carriage1colour)
+    carriage2.config(background=carriage2colour, highlightbackground =carriage2colour)
+    carriage3.config(background=carriage3colour, highlightbackground =carriage3colour)
+    carriage4.config(background=carriage4colour, highlightbackground =carriage4colour)
+    carriage5.config(background=carriage5colour, highlightbackground =carriage5colour)
 
 
 
