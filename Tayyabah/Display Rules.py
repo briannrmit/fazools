@@ -43,14 +43,15 @@ Points are added to the players score as they complete the route.
 The game ends when a player has 0, 1 or 2 carriages left.  
 Any uncompleted route card values are subtracted from the player’s score. 
 The player with the highest points wins."""
-b = Button(app, text="Quit", width=20, command=app.destroy)
+b = Button(app, text="Close Window", width=20, command=app.destroy)
 b.pack(side='bottom',padx=0,pady=0)
 
 def clickAbout():
     toplevel = Toplevel()
     label1 = Label(toplevel, text=ABOUT_TEXT,font=("courier", 13,), height=0, width=120)
     label1.pack()
-    
+    c = Button(toplevel, text="Close Window", width=20, command=app.destroy)
+    c.pack(side='bottom',padx=0,pady=0)
 
 
 
