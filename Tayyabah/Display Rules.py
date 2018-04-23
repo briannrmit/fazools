@@ -2,7 +2,7 @@ import sys
 from tkinter import *
 
 app = Tk()
-app.title("SPIES")
+app.title("How to Play")
 app.geometry("100x300+200+200")
 
 ABOUT_TEXT = """HOW TO PLAY
