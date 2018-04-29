@@ -66,8 +66,17 @@ routeScoresList = {
 
 #  For each player give them a starting array that will contain their completed routes.
 #  But assume for now, 1 player.
-noPlayers = 1
+players = [] #players should be named player1, player2 etc.
 player1Routes = []
+player2Routes = []
+player3Routes = []
+player4Routes = []
+player5Routes = []  
+scores = []
+
+#  Add players to game
+def addPlayers(name: str):
+    players.append(name)
 
 #  Assigns completed route (string such as CanberraSydney) to player's routelist array
 def recordCompletedRoute(route: str, playerRouteList: list):
@@ -83,10 +92,13 @@ def scoreCounter(playerRouteList: list):
     score = 0
     for x in playerRouteList:
         score = score + routeScoresList[x]
-
     return score
-    
-    
+
+#  Displays all end scores of each player
+def endScoreDisplay(players):
+    for i in range(0,len(players)-1):
+        playerScore = scoreCounter(eval(players[i] + 'Routes'))
+        print(players[i] + ' final score is ' + playerScore)
     
 
 
