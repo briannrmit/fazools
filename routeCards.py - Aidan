@@ -4,6 +4,7 @@ import numpy as np #you guys will have to download this
 import cv2 #you guys will have to download this
 import os
 path=os.getcwd()
+print(path)
 def createRandomRoute():
     #print(path)
     destinationList=["Weipa","Cooktown","Mackay","Bundaberg","Brisbane","Sydney","MtIsa","Bourke","Broken Hill","Canberra","Melbourne","Hobart","Portland","Adelaide","Ceduna","Coober Pedy","Alice Springs","Karumba","Burketown","Nhulunbuy","Darwin","Halls Creek","Newman","Kalgoorlie","Esperance","Albany","Bunbury","Perth","Carnarvon","Mt Magnet","Karratha","Broom"]
