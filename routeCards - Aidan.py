@@ -15,7 +15,7 @@ def createRandomRoute():
     town1Name=destinationList[town1]
     town2Name=destinationList[town2]
     #print (town1Name,town2Name)
-    card=cv2.imread(path+"/Emily/Terra_Australis_Small.png")
+    card=cv2.imread(path+"/Terra_Australis_Small.png")
     #routeCard=cv2.namedWindow("routeCard",cv2.WINDOW_NORMAL)
     cv2.imshow("routeCard",card)
     #cv2.waitKey(0)
