@@ -34,6 +34,8 @@ playerXRouteCard.append(createRandomRoute())
 playerXRouteCard.append(createRandomRoute())
 
 root =tk.Tk()
+w = Canvas(root, width=500, height=700)
+w.pack()
 
 arraySize = len(playerXRouteCard)
 
@@ -51,12 +53,13 @@ for x in range(0,arraySize) :
     playerXRouteCard[x] = cv2.merge((r,g,b))
     im = Image.fromarray(playerXRouteCard[x])
     playerXRouteCard[x] = ImageTk.PhotoImage(image=im)
-    playerXRouteCardSmall[x] = im.resize((100, 76), Image.ANTIALIAS)
+    i = im.resize((100, 76), Image.ANTIALIAS)
+    playerXRouteCardSmall[x] = ImageTk.PhotoImage(image=i)
 
 class nextButton:
     def __init__(self):
         
-        self.nextButton = Button(root, text="->", command = self.nextButtonPress)
+        self.nextButton = Button(w, text="->", command = self.nextButtonPress)
         self.nextButton.pack(side=LEFT, padx = 10)
         
     def nextButtonPress(self):
@@ -66,7 +69,6 @@ class nextButton:
             refreshCards()
         else:
             self.nextButton.config(background="red")
-            self.nextButton.after(5000, self.refresh())
         refreshCards()
 
     def refresh(self):
@@ -75,7 +77,7 @@ class nextButton:
 class previousButton:
     def __init__(self):
         
-        self.previousButton = Button(root, text="<-", command = self.previousButtonPress)
+        self.previousButton = Button(w, text="<-", command = self.previousButtonPress)
         self.previousButton.pack(side=LEFT, padx = 10)
         
     def previousButtonPress(self):
@@ -85,29 +87,36 @@ class previousButton:
             refreshCards()
         else:
             self.previousButton.config(background="red")
+
+class panel:
+    def __init__(self, position):
+        global index
+        self.position = position
+        self.panel  = Button(w, image=playerXRouteCardSmall[position + index])
+        self.panel.bind("<Enter>", self.maximize)
+        self.panel.bind("<Leave>", self.minimize)
+        self.panel.pack(side=LEFT)
+
+    def maximize(self, event):
+        self.panel.config(image=playerXRouteCard[self.position + index])
+
+    def minimize(self, event) :
+        self.panel.config(image=playerXRouteCardSmall[self.position + index])
+    def refresh(self):
+        self.panel.config(image=playerXRouteCardSmall[self.position + index])
         
     
 def refreshCards() :
-    global panel1
-    global panel2
-    global panel3
-    global panel4
-    global panel5
-    panel1.config(image=playerXRouteCard[0 + index])
-    panel2.config(image=playerXRouteCard[1 + index])
-    panel3.config(image=playerXRouteCard[2 + index])
-    panel4.config(image=playerXRouteCard[3 + index])
-    panel5.config(image=playerXRouteCard[4 + index])
+    panel1.refresh()
+    panel2.refresh()
+    panel3.refresh()
+    panel4.refresh()
+    panel5.refresh()
 
 previous = previousButton()
-panel1 = Button(root, image=playerXRouteCard[0 + index])
-panel1.pack(side=LEFT)
-panel2 = Button(root, image=playerXRouteCard[1 + index])
-panel2.pack(side=LEFT)
-panel3 = Button(root, image=playerXRouteCard[2 + index])
-panel3.pack(side=LEFT)
-panel4 = Button(root, image=playerXRouteCard[3 + index])
-panel4.pack(side=LEFT)
-panel5 = Button(root, image=playerXRouteCard[4 + index])
-panel5.pack(side=LEFT)
+panel1 = panel(0)
+panel2 = panel(1)
+panel3 = panel(2)
+panel4 = panel(3)
+panel5 = panel(4)
 next = nextButton()
