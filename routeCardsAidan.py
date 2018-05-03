@@ -17,7 +17,6 @@ def createRandomRoute():
     #print (town1Name,town2Name)
     card=cv2.imread(path+"/Terra_Australis_Small.png")
     #routeCard=cv2.namedWindow("routeCard",cv2.WINDOW_NORMAL)
-    cv2.imshow("routeCard",card)
     #cv2.waitKey(0)
     h=len(card)
     w=len(card[0])
@@ -65,10 +64,9 @@ def createRandomRoute():
     cv2.putText(card,text2,startText2,font,fontScale,fontColor,thickness,lineType)
     cv2.putText(card,text3,startText3,font,fontScale,fontColor,thickness,lineType)
     cv2.circle(card,(175,22),13,(20,20,20),1)
-    cv2.imshow("routeCard",card)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
+    return card
        
 
 
