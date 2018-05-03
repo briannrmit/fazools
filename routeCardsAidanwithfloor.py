@@ -47,7 +47,7 @@ def createRandomRoute():
     #points value
     xValue=abs(x1-x2)
     yValue=abs(y1-y2)
-    points=math.foor((math.sqrt(xValue**2+yValue**2))/7)
+    points=math.floor((math.sqrt(xValue**2+yValue**2))/7)
     #print(points)            
     text1=destinationList[town1]
     text2="to "+destinationList[town2]
