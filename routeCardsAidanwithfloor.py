@@ -29,7 +29,7 @@ def createRandomRoute():
     #print(len(x1List))
     #print(len(y1List))
     #print(len(destinationList))
-    pixel=card[x1List[town1],y1List[town1]]
+    #pixel=card[x1List[town1],y1List[town1]]
     #print(pixel)
     x1=x1List[town1]
     y1=y1List[town1]
@@ -68,7 +68,4 @@ def createRandomRoute():
     cv2.destroyAllWindows()
     return card
        
-
-
-createRandomRoute()
        
