@@ -2,14 +2,14 @@ from PIL import Image
 import random
 
 #def claimroute():
-board = Image.open( '/Users/funkybunch/Desktop/claimRoute/fixed_board_1.png')
-blackTrak = Image.open( '/Users/funkybunch/Desktop/claimRoute/smallBlakTrak.png')
-blueTrak = Image.open( '/Users/funkybunch/Desktop/claimRoute/smallBlueTrak.png')
-redTrak = Image.open( '/Users/funkybunch/Desktop/claimRoute/smallRedTrak.png')
-orangeTrak = Image.open( '/Users/funkybunch/Desktop/claimRoute/smallOrangeTrak.png')
-yellowTrak = Image.open( '/Users/funkybunch/Desktop/claimRoute/smallYellowTrak.png')
-pinkTrak = Image.open( '/Users/funkybunch/Desktop/claimRoute/smallPinkTrak.png')
-greenTrak = Image.open( '/Users/funkybunch/Desktop/claimRoute/smallGreenTrak.png')
+board = Image.open('fixed_board_1.png')
+blackTrak = Image.open('smallBlakTrak.png')
+blueTrak = Image.open('smallBlueTrak.png')
+redTrak = Image.open('smallRedTrak.png')
+orangeTrak = Image.open('smallOrangeTrak.png')
+yellowTrak = Image.open('smallYellowTrak.png')
+pinkTrak = Image.open('smallPinkTrak.png')
+greenTrak = Image.open('smallGreenTrak.png')
 
 trakList=[blackTrak, blueTrak, redTrak, orangeTrak, yellowTrak, pinkTrak, greenTrak]
 #t=5
