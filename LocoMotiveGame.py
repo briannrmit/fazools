@@ -6,6 +6,7 @@ from routeCardsAidanwithfloor import createRandomRoute #Will need this file in s
 import cv2
 import math
 import random
+from functools import partial
 
 #playerList=[None]*6
 
@@ -38,7 +39,7 @@ class playingBoard(object):
         self.r=top
         self.f=Frame(self.r)
         self.f.pack(fill="both",expand=True)
-        self.c = Canvas(self.f, width=1800, height=2659,background="#DCDCDC")
+        self.c = Canvas(self.f, width=1650, height=940,background="#DCDCDC")
         self.c.pack(fill="both", expand=True)
         self.c.create_text(1185, 20, fill="green", font="courier 25 bold", text ="Loco Motive", width=1200, anchor="nw")
         image1 = ImageTk.PhotoImage(file="board2.png")
@@ -98,7 +99,7 @@ class playingBoard(object):
         pickcarriagecard_button_window = self.c.create_window(1070, 80, anchor='nw', window=self.b1)    
         self.b2 = tk.Button(self.r, text = "   Route card",font=("courier", 15),  command = drawRouteCards, anchor = 'w', width = 18,height = 2, activebackground = "#33B5E5")
         pickroute_button_window = self.c.create_window(1290, 80, anchor='nw', window=self.b2)
-        self.b3 = tk.Button(self.r, text = "  Claim a route",font=("courier", 15),  command = root.quit, anchor = 'w', width = 16,height = 2, activebackground = "#33B5E5")
+        self.b3 = tk.Button(self.r, text = "  Claim a route",font=("courier", 15),  command = self.routePopup, anchor = 'w', width = 16,height = 2, activebackground = "#33B5E5")
         claimroute_button_window = self.c.create_window(1070, 150, anchor='nw', window=self.b3)
         self.b4 = tk.Button(self.r, text = "    End Turn",font=("courier", 15),  command = root.quit, anchor = 'w', width = 18,height = 2, activebackground = "#33B5E5")
         endturn_button_window = self.c.create_window(1290, 150, anchor='nw', window=self.b4)
@@ -116,6 +117,59 @@ class playingBoard(object):
             self.c.create_text(1400,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
             y+=23
             x+=1
+        if button_num==0:
+            self.capeYToWeipa
+        
+
+    def capeYToWeipa(self):
+    #area = (778, 114, 808, 126)
+        area = (xIndex[0], yIndex[0], xIndex[0] + 30, yIndex[0] + 12)
+        self.paste(trakList[t], area)
+        app=playingBoard(root)
+        
+
+    def routePopup(self):
+        self.w=claimARoute(self.r)
+
+numButton=None
+
+class claimARoute(object):
+    def __init__(self,master):
+        top=window=Toplevel(master)
+
+        self.r=top
+        self.f=Frame(self.r)
+        self.f.grid()
+        self.label=Label(self.f, text="")
+        self.label.grid(row=0, column=0, columnspan=5)
+        self.list_of_button_ids=[]
+        allRoutesList=allRoutes()
+        i=0
+        while (i<len(allRoutesList)):
+            button = Button(self.f, text=str(allRoutesList[i]), width = 27, height = 4, padx = 2, pady = 1, command=partial(self.button_callback, i))
+            this_row, this_col=divmod(i, 9)
+            button.grid(row=this_row+1, column=this_col)
+            self.list_of_button_ids.append(button)
+            i+=1
+        self.r.mainloop()
+
+
+
+    def button_callback(self, button_num):
+        global numButton
+        numButton=button_num
+        return numButton
+
+def allRoutes():
+    allRoutesList=["Cape York to Weipa","Cape York to Cooktown","CapeYork to Mackay","Cooktown to Mackay","Weipa to Karumba","Mackay to Bundaberg","Karumba to Burketown","Karumba to Mt Isa","Bundaberg to Brisbane", "Burketown to Nhulunbuy", "Nhulunbuy to Darwin","Darwin to Alice Springs Blue","Darwin to Alice Springs Grey","Brisbane to Sydney","Bundaberg to Bourke","Mt Isa to Coober Pedy","Mt Isa to Bourke","Sydney to Bourke","Bourke to Broken Hill","Sydney to Canberra","Broken Hill to Melbourne","Canberra to Melbourne","Sydney to Melbourne","Melbourne to Hobart","Melbourne to Portland","Adelaide to Portland","Adelaide to Coober Pedy","Adelaide to Ceduna","Mackay to Mt Isa","Adealide to Border Village","Ceduna to Border Village","Alice Springs to Border Village","alice Springs to Coober Pedy","Burketown to Alice Springs","Darwin to Broome","Alice Springs to Halls Creek","Broome to Halls Creek","Broome to Karatha","Broome to Newman","Karatha to Newman","Karatha to Exmouth","Exmouth to Carnarvon","Carnarvon to Mt Magnet","Newman to Mt Magnet","Newman to Karlgoolie 1","Newman to Karlgoolie 2","Mt Magnet to Karlgoolie","Karlgoolie to Border Village Yellow","Karlgoolie to Border Village Red","Esperance to Border Village","Albany to Esperance","Albany to Bunbury","Perth to Bunbury","Perth to Mt Magnet"]
+    print(len(allRoutesList))
+    return (allRoutesList)
+
+def allRouteFunctions(i):
+    allRoutesFunctionsList=["capeYToWeipa()","capeToCooktown()","capeYToMackay()","cooktownToMackay()","weipaToKarumba","mackayToBundy()","Karumba to Burketown","Karumba to Mt Isa","Bundaberg to Brisbane", "Burketown to Nhulunbuy", "Nhulunbuy to Darwin","Darwin to Alice Springs Blue","Darwin to Alice Springs Grey","Brisbane to Sydney","Bundaberg to Bourke","Mt Isa to Coober Pedy","Mt Isa to Bourke","Sydney to Bourke","Bourke to Broken Hill","Sydney to Canberra","Broken Hill to Melbourne","Canberra to Melbourne","Sydney to Melbourne","Melbourne to Hobart","Melbourne to Portland","Adelaide to Portland","Adelaide to Coober Pedy","Adelaide to Ceduna","Mackay to Mt Isa","Adealide to Border Village","Ceduna to Border Village","Alice Springs to Border Village","alice Springs to Coober Pedy","Burketown to Alice Springs","Darwin to Broome","Alice Springs to Halls Creek","Broome to Halls Creek","Broome to Karatha","Broome to Newman","Karatha to Newman","Karatha to Exmouth","Exmouth to Carnarvon","Carnarvon to Mt Magnet","Newman to Mt Magnet","Newman to Karlgoolie 1","Newman to Karlgoolie 2","Mt Magnet to Karlgoolie","Karlgoolie to Border Village Yellow","Karlgoolie to Border Village Red","Esperance to Border Village","Albany to Esperance","Albany to Bunbury","Perth to Bunbury","Perth to Mt Magnet"]
+    action=allRoutesFunctionsList[i]
+
+
 
 class drawTrainCards(object):
     
@@ -142,7 +196,7 @@ class drawTrainCards(object):
             i+=1
             x+=170
         self.b = tk.Button(self.r, text = " OK",font=("courier", 15),  command = self.refresh, anchor = 'w', width = 5,height = 2, activebackground = "#33B5E5")
-        endturn_button_window = self.c.create_window(w-75, 170, anchor='nw', window=self.b)
+        button_window = self.c.create_window(w-75, 170, anchor='nw', window=self.b)
      
     def refresh(self):
         #otherWindow.destroy()
@@ -530,7 +584,24 @@ class mainWindow(object):
         print (routesList)
         print(carriagesList)
         print(carriageRemList)
-        
+
+
+blueTrak = Image.open('smallBlueTrak.png')
+redTrak = Image.open('smallRedTrak.png')
+orangeTrak = Image.open('smallOrangeTrak.png')
+yellowTrak = Image.open('smallYellowTrak.png')
+pinkTrak = Image.open('smallPinkTrak.png')
+greenTrak = Image.open('smallGreenTrak.png')
+
+trakList=[blueTrak, redTrak, orangeTrak, yellowTrak, pinkTrak, greenTrak]
+
+xIndex=[778, 796, 805, 811, 835, 853, 869, 873, 863, 840, 852, 786, 785, 770, 882, 904, 923, 936, 726, 758, 765, 774, 794, 956, 973, 679, 657, 643, 647, 639, 610, 580, 573, 578, 583, 587, 593, 597, 603, 559, 564, 568, 573, 578, 584, 590, 998, 1002, 993, 974, 922, 896, 880, 871, 860, 816, 806, 785, 757, 728, 701, 677, 837, 848, 847, 844, 948, 928, 900, 870, 820, 796, 787, 932, 903, 886, 794, 797, 801, 873, 855, 826, 953, 943, 925, 905, 878, 850, 820, 801, 799, 798, 810, 785, 758, 727, 748, 756, 750, 714, 707, 682, 683, 651, 624, 852, 838, 822, 690, 667, 637, 608, 578, 549, 578, 547, 609, 613, 603, 588, 566, 544, 623, 646, 659, 665, 663, 703, 695, 678, 652, 625, 536, 509, 485, 462, 442, 418, 393, 578, 547, 520, 500, 479, 401, 431, 456, 365, 344, 315, 286, 391, 391, 377, 354, 330, 283, 301, 252, 228, 207, 213, 242, 272, 290, 279, 287, 325, 341, 357, 317, 332, 347, 313, 342, 388, 417, 445, 474, 502, 387, 416, 445, 474, 502, 449, 478, 508, 524, 351, 374, 404, 317, 289, 273, 264, 273]
+yIndex=[114, 118, 146, 102, 120, 142, 168, 199, 226, 196, 224, 169, 200, 224, 261, 284, 310, 336, 235, 263, 292, 321, 343, 378, 404, 222, 202, 177, 147, 111, 103, 112, 147, 177, 208, 238, 269, 299, 330, 148, 178, 209, 239, 270, 301, 332, 448, 477, 506, 528, 359, 371, 395, 421, 448, 369, 399, 417, 427, 435, 447, 463, 356, 385, 414, 445, 521, 497, 484, 474, 468, 483, 513, 539, 546, 571, 559, 590, 623, 622, 645, 651, 567, 597, 620, 640, 657, 669, 664, 668, 700, 731, 758, 662, 668, 551, 572, 602, 631, 528, 500, 483, 557, 552, 538, 271, 297, 324, 534, 515, 507, 508, 511, 516, 533, 531, 374, 401, 430, 456, 477, 497, 354, 371, 400, 427, 456, 258, 286, 310, 323, 335, 125, 136, 151, 171, 194, 214, 231, 356, 353, 342, 324, 301, 244, 242, 258, 269,291, 303, 312, 270, 300, 325, 343, 360, 333, 358, 340, 355, 385, 414, 448, 460, 389, 416, 446, 395, 422, 450, 401, 428, 454, 483, 486, 467, 476, 485, 496, 504, 478, 487, 496, 507, 515, 557, 561, 561, 537, 565, 546, 543, 598, 595, 551, 506, 480]
+
+t=0
+
+
+       
 
 mainWindow(root)
 root.mainloop()
