@@ -74,10 +74,10 @@ class mainPlayingBoard(object):
         self.frame.pack(fill="both",expand=True)
         self.canvas=Canvas(self.frame, width=screenWidth, height=screenHeight,background="#DCDCDC")
         self.canvas.pack(fill="both", expand=True)
-        self.canvas.create_text((screenWidth*0.73), 20, fill="green", font="courier 25 bold",
+        self.canvas.create_text((screenWidth-screenWidth/7*2), 20, fill="green", font="courier 25 bold",
                                 text ="Loco Motive", width=screenWidth*0.73, anchor="nw")
         mapPic=Image.open("board2.png")
-        picWidth=int(screenWidth/5*3)
+        picWidth=int(screenWidth/7*4)
         picHeight=int(screenHeight/5*4)
         resizedMap=mapPic.resize((picWidth, picHeight),Image.ANTIALIAS)
         imageMap = ImageTk.PhotoImage(resizedMap)
@@ -89,7 +89,7 @@ class mainPlayingBoard(object):
         photoLabel2=Label(image=imageScoreboard)
         photoLabel2.image=imageScoreboard
         photoLabel2.pack()
-        self.canvas.create_image(screenWidth*0.65,screenHeight*0.53, image=imageScoreboard,anchor = NW)
+        self.canvas.create_image(screenWidth-screenWidth/7*2.5,screenHeight/2, image=imageScoreboard,anchor = NW)
         imageCarriageBlue = ImageTk.PhotoImage(file="carriage_blue.png")
         photoLabel3=Label(image=imageCarriageBlue)
         photoLabel3.image=imageCarriageBlue
@@ -141,19 +141,19 @@ class mainPlayingBoard(object):
                                 text ="x "+str(p1LocoNum), width=1200, anchor="nw")
         self.b1 = tk.Button(self.root, text = " Carriage card",font=("courier", 15),  command =self.openDrawTrainCards,
                             anchor = 'w',width = 16,height = 2,activebackground = "#33B5E5")
-        pickcarriagecard_button_window = self.canvas.create_window(screenWidth*0.65, screenHeight*0.09, anchor='nw', window=self.b1)    
+        pickcarriagecard_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.5, screenHeight/15*1.5, anchor='nw', window=self.b1)    
         self.b2 = tk.Button(self.root, text = "   Route card",font=("courier", 15),  command = self.openDrawRouteCards,
                             anchor = 'w', width = 18,height = 2, activebackground = "#33B5E5")
-        pickroute_button_window = self.canvas.create_window(screenWidth*0.78, screenHeight*0.09, anchor='nw', window=self.b2)
+        pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.5, screenHeight/15*1.5, anchor='nw', window=self.b2)
         self.b3 = tk.Button(self.root, text = "  Claim a route",font=("courier", 15),  command = self.openClaimARoute,
                             anchor = 'w', width = 16,height = 2, activebackground = "#33B5E5")
-        claimroute_button_window = self.canvas.create_window(screenWidth*0.65, screenHeight*0.16, anchor='nw', window=self.b3)
+        claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.5, screenHeight/15*3.5, anchor='nw', window=self.b3)
         self.b4 = tk.Button(self.root, text = "    End Turn",font=("courier", 15),  command = root.quit,
                             anchor = 'w', width = 18,height = 2, activebackground = "#33B5E5")
-        endturn_button_window = self.canvas.create_window(screenWidth*0.78, screenHeight*0.16, anchor='nw', window=self.b4)
+        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.5, screenHeight/15*3.5, anchor='nw', window=self.b4)
         howtoplay_button = tk.Button(self.root, text = "   How to Play",font=("courier", 15),  command = self.howToPlay,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
-        howtoplay_button_window = self.canvas.create_window(screenWidth*0.73, screenHeight*0.23, anchor='nw', window=howtoplay_button)
+        howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2, screenHeight/15*5.5, anchor='nw', window=howtoplay_button)
         routesList=self.routesListInfo
         carriagesList=self.carriagesListInfo
         carriagesRemList=self.carriagesRemInfo
