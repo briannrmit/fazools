@@ -111,7 +111,7 @@ class mainPlayingBoard(object):
         photoLabel4=Label(image=imageCarriageYellow)
         photoLabel4.image=imageCarriageYellow
         photoLabel4.pack()
-        self.canvas.create_image(screenWidth*0.15,screenHeight*0.87, image=imageCarriageYellow,anchor = NW)
+        self.canvas.create_image(screenWidth/11+screenWidth/22+10,screenHeight*0.87, image=imageCarriageYellow,anchor = NW)
         redCarPic=Image.open("carriage_red.png")
         picWidth=int(screenWidth/10*0.91)
         picHeight=int(screenHeight/10*1.12)
@@ -120,7 +120,7 @@ class mainPlayingBoard(object):
         photoLabel5=Label(image=imageCarriageRed)
         photoLabel5.image=imageCarriageRed
         photoLabel5.pack()
-        self.canvas.create_image(screenWidth*0.28,screenHeight*0.87, image=imageCarriageRed,anchor = NW)
+        self.canvas.create_image(screenWidth/11*2+screenWidth/22*2+10,screenHeight*0.87, image=imageCarriageRed,anchor = NW)
         greenCarPic=Image.open("carriage_green.png")
         picWidth=int(screenWidth/10*0.91)
         picHeight=int(screenHeight/10*1.12)
@@ -129,7 +129,7 @@ class mainPlayingBoard(object):
         photoLabel6=Label(image=imageCarriageGreen)
         photoLabel6.image=imageCarriageGreen
         photoLabel6.pack()
-        self.canvas.create_image(screenWidth*0.42,screenHeight*0.87, image=imageCarriageGreen,anchor = NW)
+        self.canvas.create_image(screenWidth/11*3+screenWidth/22*3+10,screenHeight*0.87, image=imageCarriageGreen,anchor = NW)
         orangeCarPic=Image.open("carriage_orange.png")
         picWidth=int(screenWidth/10*0.91)
         picHeight=int(screenHeight/10*1.12)
@@ -138,7 +138,7 @@ class mainPlayingBoard(object):
         photoLabel7=Label(image=imageCarriageOrange)
         photoLabel7.image=imageCarriageOrange
         photoLabel7.pack()
-        self.canvas.create_image(screenWidth*0.56,screenHeight*0.87, image=imageCarriageOrange,anchor = NW)
+        self.canvas.create_image(screenWidth/11*4+screenWidth/22*4+10,screenHeight*0.87, image=imageCarriageOrange,anchor = NW)
         pinkCarPic=Image.open("carriage_pink.png")
         picWidth=int(screenWidth/10*0.91)
         picHeight=int(screenHeight/10*1.12)
@@ -147,7 +147,7 @@ class mainPlayingBoard(object):
         photoLabel8=Label(image=imageCarriagePink)
         photoLabel8.image=imageCarriagePink
         photoLabel8.pack()
-        self.canvas.create_image(screenWidth*0.70,screenHeight*0.87, image=imageCarriagePink,anchor = NW)
+        self.canvas.create_image(screenWidth/11*5+screenWidth/22*5+10,screenHeight*0.87, image=imageCarriagePink,anchor = NW)
         locoCarPic=Image.open("train_card.png")
         picWidth=int(screenWidth/10*0.91)
         picHeight=int(screenHeight/10*1.12)
@@ -156,33 +156,33 @@ class mainPlayingBoard(object):
         photoLabel9=Label(image=imageCarriageLoco)
         photoLabel9.image=imageCarriageLoco
         photoLabel9.pack()
-        self.canvas.create_image(screenWidth*0.85,screenHeight*0.87, image=imageCarriageLoco,anchor = NW)
-        self.canvas.create_text(screenWidth*0.10, screenHeight*0.91, fill="green", font="courier 25 bold",
+        self.canvas.create_image(screenWidth/11*6+screenWidth/22*6+10,screenHeight*0.87, image=imageCarriageLoco,anchor = NW)
+        self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1BlueNum), width=1200, anchor="nw")
-        self.canvas.create_text(screenWidth*0.24, screenHeight*0.91, fill="green", font="courier 25 bold",
+        self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1YellowNum), width=1200, anchor="nw")
-        self.canvas.create_text(screenWidth*0.38, screenHeight*0.91, fill="green", font="courier 25 bold",
+        self.canvas.create_text(screenWidth/11*3+screenWidth/22*2+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1RedNum), width=1200, anchor="nw")
-        self.canvas.create_text(screenWidth*0.52, screenHeight*0.91, fill="green", font="courier 25 bold",
+        self.canvas.create_text(screenWidth/11*4+screenWidth/22*3+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1GreenNum), width=1200, anchor="nw")
-        self.canvas.create_text(screenWidth*0.66, screenHeight*0.91, fill="green", font="courier 25 bold",
+        self.canvas.create_text(screenWidth/11*5+screenWidth/22*4+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1OrangeNum), width=1200, anchor="nw")
-        self.canvas.create_text(screenWidth*0.80, screenHeight*0.91, fill="green", font="courier 25 bold",
+        self.canvas.create_text(screenWidth/11*6+screenWidth/22*5+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1PinkNum), width=1200, anchor="nw")
-        self.canvas.create_text(screenWidth*0.94, screenHeight*0.91, fill="green", font="courier 25 bold",
+        self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1LocoNum), width=1200, anchor="nw")
         self.b1 = tk.Button(self.root, text = " Carriage card",font=("courier", 15),  command =self.openDrawTrainCards,
-                            anchor = 'w',width = 16,height = 2,activebackground = "#33B5E5")
+                            anchor = 'w',width = 15,height = 2,activebackground = "#33B5E5")
         pickcarriagecard_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.5, screenHeight/15*1.5, anchor='nw', window=self.b1)    
         self.b2 = tk.Button(self.root, text = "   Route card",font=("courier", 15),  command = self.openDrawRouteCards,
-                            anchor = 'w', width = 18,height = 2, activebackground = "#33B5E5")
-        pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.5, screenHeight/15*1.5, anchor='nw', window=self.b2)
-        self.b3 = tk.Button(self.root, text = "  Claim a route",font=("courier", 15),  command = self.openClaimARoute,
-                            anchor = 'w', width = 16,height = 2, activebackground = "#33B5E5")
+                            anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
+        pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*1.5, anchor='nw', window=self.b2)
+        self.b3 = tk.Button(self.root, text = " Claim a route",font=("courier", 15),  command = self.openClaimARoute,
+                            anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
         claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.5, screenHeight/15*3.5, anchor='nw', window=self.b3)
         self.b4 = tk.Button(self.root, text = "    End Turn",font=("courier", 15),  command = root.quit,
-                            anchor = 'w', width = 18,height = 2, activebackground = "#33B5E5")
-        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.5, screenHeight/15*3.5, anchor='nw', window=self.b4)
+                            anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
+        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*3.5, anchor='nw', window=self.b4)
         howtoplay_button = tk.Button(self.root, text = "   How to Play",font=("courier", 15),  command = self.howToPlay,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
         howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2, screenHeight/15*5.5, anchor='nw', window=howtoplay_button)
