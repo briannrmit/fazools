@@ -9,9 +9,10 @@ import random
 from functools import partial
 
 
+#https://www.blog.pythonlibrary.org/2012/07/26/tkinter-how-to-show-hide-a-window/
 
-
-
+playerList=[]
+compList=[]
 
 
 p1BlueNum=0
@@ -149,9 +150,9 @@ class mainPlayingBoard(object):
         howtoplay_button = tk.Button(self.root, text = "   How to Play",font=("courier", 15),  command = self.howToPlay,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
         howtoplay_button_window = self.canvas.create_window(screenWidth*0.73, screenHeight*0.23, anchor='nw', window=howtoplay_button)
-        routesList=routesListInfo()
-        carriagesList=carriagesListInfo()
-        carriagesRemList=carriagesRemInfo()
+        routesList=self.routesListInfo
+        carriagesList=self.carriagesListInfo
+        carriagesRemList=self.carriagesRemInfo
         x=0
         y=screenHeight*0.63
         while(x<len(playerList)):
@@ -224,19 +225,19 @@ class mainPlayingBoard(object):
         c = Button(toplevel, text="Close Window", width=20, command=toplevel.destroy)
         c.pack(side='top',padx=5,pady=30)   
 
-    def routesListInfo():
+    def routesListInfo(self):
         numPlayers=len(playerList)
         routesList=[0]*numPlayers
         #print (playerList)
         return (routesList)        
 
-    def carriagesListInfo():
+    def carriagesListInfo(self):
         numPlayers=len(playerList)
         carriagesList=[0]*numPlayers
         #print (playerList)
         return(carriagesList)
 
-    def carriagesRemInfo():
+    def carriagesRemInfo(self):
         numPlayers=len(playerList)
         carriageRemList=[40]*numPlayers
         #print (playerList)
