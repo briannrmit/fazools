@@ -76,11 +76,15 @@ class mainPlayingBoard(object):
         self.canvas.pack(fill="both", expand=True)
         self.canvas.create_text((screenWidth*0.73), 20, fill="green", font="courier 25 bold",
                                 text ="Loco Motive", width=screenWidth*0.73, anchor="nw")
-        imageMap = ImageTk.PhotoImage(file="board2.png")
+        mapPic=Image.open("board2.png")
+        picWidth=int(screenWidth/5*3)
+        picHeight=int(screenHeight/5*4)
+        resizedMap=mapPic.resize((picWidth, picHeight),Image.ANTIALIAS)
+        imageMap = ImageTk.PhotoImage(resizedMap)
         photoLabel1=Label(image=imageMap)
         photoLabel1.image=imageMap
         photoLabel1.pack()
-        self.canvas.create_image(screenWidth*(-0.06),0, image=imageMap,anchor = NW)
+        self.canvas.create_image(screenWidth*(-0.04),0, image=imageMap,anchor = NW)
         imageScoreboard = ImageTk.PhotoImage(file="scoreboard_template.png")
         photoLabel2=Label(image=imageScoreboard)
         photoLabel2.image=imageScoreboard
