@@ -65,6 +65,8 @@ yIndex=[114, 118, 146, 102, 120, 142, 168, 199, 226, 196, 224, 169,
 
 t=0
 
+
+
 class mainPlayingBoard(object):
     def __init__(self,parent):
         """Constructor"""
@@ -74,7 +76,7 @@ class mainPlayingBoard(object):
         self.frame.pack(fill="both",expand=True)
         self.canvas=Canvas(self.frame, width=screenWidth, height=screenHeight,background="#DCDCDC")
         self.canvas.pack(fill="both", expand=True)
-        self.canvas.create_text((screenWidth-screenWidth/7*2), 20, fill="green", font="courier 25 bold",
+        self.canvas.create_text((screenWidth-screenWidth/7*1.5), 20, fill="green", font="courier 25 bold",
                                 text ="Loco Motive", width=screenWidth*0.73, anchor="nw")
         mapPic=Image.open("board2.png")
         picWidth=int(screenWidth/10*7.2)
@@ -84,7 +86,7 @@ class mainPlayingBoard(object):
         photoLabel1=Label(image=imageMap)
         photoLabel1.image=imageMap
         photoLabel1.pack()
-        self.canvas.create_image(screenWidth*(-0.04),0, image=imageMap,anchor = NW)
+        self.canvas.create_image(0,0, image=imageMap,anchor = NW)
         scoreboardPic=Image.open("scoreboard_template.png")
         picWidth=int(screenWidth/10*2.8)
         picHeight=int(screenHeight/10*2.7)
@@ -93,7 +95,7 @@ class mainPlayingBoard(object):
         photoLabel2=Label(image=imageScoreboard)
         photoLabel2.image=imageScoreboard
         photoLabel2.pack()
-        self.canvas.create_image(screenWidth-screenWidth/7*2.5,screenHeight/2, image=imageScoreboard,anchor = NW)
+        self.canvas.create_image(screenWidth-screenWidth/7*1.9,screenHeight/2, image=imageScoreboard,anchor = NW)
         blueCarPic=Image.open("carriage_blue.png")
         picWidth=int(screenWidth/10*0.91)
         picHeight=int(screenHeight/10*1.12)
@@ -173,29 +175,29 @@ class mainPlayingBoard(object):
                                 text ="x "+str(p1LocoNum), width=1200, anchor="nw")
         self.b1 = tk.Button(self.root, text = " Carriage card",font=("courier", 15),  command =self.openDrawTrainCards,
                             anchor = 'w',width = 15,height = 2,activebackground = "#33B5E5")
-        pickcarriagecard_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.5, screenHeight/15*1.5, anchor='nw', window=self.b1)    
+        pickcarriagecard_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.8, screenHeight/15*1.5, anchor='nw', window=self.b1)    
         self.b2 = tk.Button(self.root, text = "   Route card",font=("courier", 15),  command = self.openDrawRouteCards,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*1.5, anchor='nw', window=self.b2)
+        pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*0.8, screenHeight/15*1.5, anchor='nw', window=self.b2)
         self.b3 = tk.Button(self.root, text = " Claim a route",font=("courier", 15),  command = self.openClaimARoute,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.5, screenHeight/15*3.5, anchor='nw', window=self.b3)
+        claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.8, screenHeight/15*3.5, anchor='nw', window=self.b3)
         self.b4 = tk.Button(self.root, text = "    End Turn",font=("courier", 15),  command = root.quit,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*3.5, anchor='nw', window=self.b4)
+        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*0.8, screenHeight/15*3.5, anchor='nw', window=self.b4)
         howtoplay_button = tk.Button(self.root, text = "   How to Play",font=("courier", 15),  command = self.howToPlay,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
-        howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2, screenHeight/15*5.5, anchor='nw', window=howtoplay_button)
+        howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*5.5, anchor='nw', window=howtoplay_button)
         routesList=self.routesListInfo
         carriagesList=self.carriagesListInfo
         carriagesRemList=self.carriagesRemInfo
         x=0
         y=screenHeight*0.63
         while(x<len(playerList)):
-            self.c.create_text(screenWidth*0.68,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
-            self.c.create_text(screenWidth*0.71,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
-            self.c.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
-            self.c.create_text(screenWidth*0.85,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.68,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.71,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.85,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
             y+=screenHeight*0.0244
             x+=1
 
@@ -283,14 +285,81 @@ class mainPlayingBoard(object):
     def openStartMenu(self):
         """"""
         #self.hide()
-        #subFrame=OtherFrame()
-        #handler=lambda;self.onCloseOtherFrame(subFrame)
-        #button=Tk.Button
+        subFrame=OtherFrame()
+        handler=lambda:self.onCloseOtherFrame(subFrame)
+        button=Tk.Button(subFrame, text="Close", command=handler)
+        btn.pack()
 
     def show(self):
         """"""
         self.root.update()
         sel.root.deiconify()
+
+class startWindow(object):
+    def __init__(self,parent):
+        #tk.Toplevel.__init__(self)
+        top=Toplevel()
+        self.myParent=parent
+        self.r=top
+        self.r.title("Start Menu")
+        self.frame=Frame(self.r)
+        self.frame.pack(fill="both",expand=True)
+        self.r.lift()
+        self.b=Button(self.frame,text="Add Human Player",command=self.popup)
+        self.b.pack()
+        self.b2=Button(self.frame,text="Add Computer Player",command=self.addComputer)
+        self.b2.pack()
+        self.b3=Button(self.frame,text="Start",command=self.hide(parent))
+        self.b3.pack()
+        
+
+    def popup(self):
+        self.w=popupWindow(self.r)
+        self.b["state"] = "disabled" 
+        self.r.wait_window(self.w.top)
+        self.b["state"] = "normal"
+        playerList.append(self.w.value)
+        return playerList
+
+    def hide(self,parent):
+        """"""
+        self.r.withdraw()
+        parent.update()
+        #self.value=self.master.get()
+        #self.master.destroy()
+
+    def addComputer(self):
+        compList.append("Computer")
+        compNum=len(compList)
+        compPlayer="Computer "+str(compNum)
+        playerList.append(compPlayer)
+     
+    def entryValue(self):
+        print (playerList)
+        numPlayers=len(playerList)
+        routesList=[0]*numPlayers
+        carriagesList=[0]*numPlayers
+        carriageRemList=[40]*numPlayers
+        #print (routesList)
+        #print(carriagesList)
+        #print(carriageRemList)
+
+class popupWindow(object):
+    def __init__(self,master):
+        top=self.top=Toplevel(master)
+        self.l=Label(top,text="Human Player Name")
+        self.l.pack()
+        self.e=Entry(top)
+        self.e.pack()
+        self.b=Button(top,text='Ok',command=self.cleanup)
+        self.b.pack()
+        
+     
+    def cleanup(self):
+        self.value=self.e.get()
+        self.top.destroy()
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -298,7 +367,10 @@ if __name__ == "__main__":
     screenHeight=(root.winfo_screenheight())-80
     root.geometry("%sx%s" %(screenWidth,screenHeight))
     app = mainPlayingBoard(root)
+    if not playerList:
+            startWindow(root)
     root.mainloop()
+    
 
 
 
@@ -341,3 +413,11 @@ class drawTrainCards(object):
 class drawRouteCards(object):
     def __init__(self,position):
         self.position = position
+
+
+
+
+
+
+
+
