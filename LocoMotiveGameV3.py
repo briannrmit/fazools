@@ -311,6 +311,7 @@ class mainPlayingBoard(object):
     def drawTrainCards(self):
         
         toplevel = Toplevel()
+        global p1Turn
         if p1Turn==0:
             w=850
         else:
@@ -339,6 +340,7 @@ class mainPlayingBoard(object):
         button_window = toplevel.canvas.create_window(w-75, 170, anchor='nw', window=toplevel.b)
         global cardClick
         cardClick+=1
+        p1Turn+=1
         #self.value=self.root.get()
         #root.update_idletasks()
         #self.canvas.after(1000,self.canvas.update)
