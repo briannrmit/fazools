@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import messagebox
 #import numpy as np 
 from PIL import ImageTk, Image
 from routeCardsAidanwithfloor import createRandomRoute #Will need this file in same directory
@@ -7,6 +8,7 @@ import cv2
 import math
 import random
 from functools import partial
+
 
 
 #https://www.blog.pythonlibrary.org/2012/07/26/tkinter-how-to-show-hide-a-window/
@@ -198,22 +200,18 @@ class mainPlayingBoard(object):
         howtoplay_button = tk.Button(self.root, text = "   How to Play",font=("courier", 15),  command = self.howToPlay,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
         howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*5.5, anchor='nw', window=howtoplay_button)
-        routesList=self.routesListInfo
-        carriagesList=self.carriagesListInfo
-        carriagesRemList=self.carriagesRemInfo
-        x=0
-        y=screenHeight*0.63
-        while(x<len(playerList)):
-            self.canvas.create_text(screenWidth*0.68,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.71,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.85,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
-            y+=screenHeight*0.0244
-            x+=1
-        #self.after(1000,self.update())
+        quit_button = tk.Button(self.root, text = "   Quit",font=("courier", 15),  command = self.askQuit,
+                                     anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
+        quit_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*6.2, anchor='nw', window=quit_button)
+        
+        
+         #self.after(1000,self.update())
 
     
 
+    def askQuit(self):
+        if messagebox.askokcancel("Are you sure you want to quit?"):
+            root.destroy()
     def hide(self):
         """"""
         self.root.withdraw()
@@ -276,23 +274,7 @@ class mainPlayingBoard(object):
         c = Button(toplevel, text="Close Window", width=20, command=toplevel.destroy)
         c.pack(side='top',padx=5,pady=30)   
 
-    def routesListInfo(self):
-        numPlayers=len(playerList)
-        routesList=[0]*numPlayers
-        #print (playerList)
-        return (routesList)        
-
-    def carriagesListInfo(self):
-        numPlayers=len(playerList)
-        carriagesList=[0]*numPlayers
-        #print (playerList)
-        return(carriagesList)
-
-    def carriagesRemInfo(self):
-        numPlayers=len(playerList)
-        carriageRemList=[40]*numPlayers
-        #print (playerList)
-        return(carriageRemList)
+    
 
 
     def openStartMenu(self):
@@ -373,14 +355,15 @@ class startWindow(object):
         self.b["state"] = "disabled" 
         self.r.wait_window(self.w.top)
         self.b["state"] = "normal"
+        global PlayerList
         playerList.append(self.w.value)
-        return playerList
+        print (playerList)
 
     def hide(self):
         """"""
         self.r.destroy()
-        parent=mainPlayingBoard()
-        parent.update()
+        #parent=mainPlayingBoard()
+        #parent.update()
         #self.value=self.master.get()
         #self.master.destroy()
 
@@ -388,7 +371,9 @@ class startWindow(object):
         compList.append("Computer")
         compNum=len(compList)
         compPlayer="Computer "+str(compNum)
+        global playerList
         playerList.append(compPlayer)
+        print(playerList)
      
     def entryValue(self):
         print (playerList)
@@ -403,6 +388,7 @@ class startWindow(object):
 class popupWindow(object):
     def __init__(self,master):
         self.top=Toplevel(master)
+        self.top.attributes("-topmost", True)
         self.l=Label(self.top,text="Human Player Name")
         self.l.pack()
         self.e=Entry(self.top)
@@ -416,43 +402,6 @@ class popupWindow(object):
         self.top.destroy()
 
 
-class drawTrainCards(object):
-    
-    def __init__(self,original):
-        toplevel=tk.Toplevel()
-        if p1Turn==0:
-            w=850
-        else:
-            w=340
-        label1=Label(toplevel,text="Train Cards Drawn",font=("courier", 12,),width=w, height=240)
-        self.original_frame=original
-        self.root=toplevel
-        self.frame=Frame(self.root)
-        self.frame.pack(fill="both",expand=True)
-        print(self)
-        
-        self.canvas = Canvas(self.frame, width=w, height=240,background="#DCDCDC")
-        self.canvas.pack(fill="both", expand=True)
-        imageList=cardList()
-        i=0
-        x=20
-        while (i<len(imageList)):
-            image= ImageTk.PhotoImage(file=imageList[i])
-            photoLabel=Label(image=image)
-            photoLabel.image=image
-            photoLabel.pack()
-            self.canvas.create_image(x,20, image=image,anchor = NW)
-            i+=1
-            x+=170
-        self.b = tk.Button(self.root, text = " OK",font=("courier", 15),  command = label1.destroy, anchor = 'w', width = 5,height = 2, activebackground = "#33B5E5")
-        button_window = self.canvas.create_window(w-75, 170, anchor='nw', window=self.b)
-     
-    def refresh(self):
-        """"""
-        self.destroy()
-        self.original_frame.hide()
-        self.original_frame.update()
-        self.original_frame.show()
 
 
 
@@ -515,18 +464,21 @@ def addCards(drawnList):
     
 
 def routesListInfo():
+    global playerList
     numPlayers=len(playerList)
     routesList=[0]*numPlayers
     #print (playerList)
     return (routesList)        
 
 def carriagesListInfo():
+    global playerList
     numPlayers=len(playerList)
     carriagesList=[0]*numPlayers
     #print (playerList)
     return(carriagesList)
 
 def carriagesRemInfo():
+    global playerList
     numPlayers=len(playerList)
     carriageRemList=[40]*numPlayers
     #print (playerList)
@@ -534,9 +486,12 @@ def carriagesRemInfo():
 
 
 
-
 def update(self):
     while True:
+        
+        global playerList
+        #print (playerList)
+        #print (routesList)
         start=0
         while (start==0):
         
@@ -555,6 +510,18 @@ def update(self):
             p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
             start=1
+        x=0
+        y=screenHeight*0.63
+        if not playerList:
+            self.canvas.create_text(screenWidth*0.68,y, fill="white", font="courier 15 bold", text ="Player", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.71,y, fill="white", font="courier 12 bold", text ="0", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text ="0", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.85,y, fill="white", font="courier 15 bold", text ="40", width=1200, anchor="nw")
+            y+=screenHeight*0.0244
+            x+=1
+
+
+            
         while (cardClick>=0):
             self.canvas.after(2000)
             self.canvas.delete(p1BlueNumText)
@@ -580,6 +547,24 @@ def update(self):
                                 text ="x "+str(p1PinkNum[cardClick]), width=1200, anchor="nw")
             p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x "+str(p1LocoNum[cardClick]), width=1200, anchor="nw")
+            self.canvas.update()
+        
+            y=screenHeight*0.63
+        x=0
+        while(x<len(playerList)):
+            
+            routesList=routesListInfo()
+            carriagesList=carriagesListInfo()
+            carriagesRemList=carriagesRemInfo()
+            print (playerList)
+            print (routesList)
+            self.canvas.create_text(screenWidth*0.68,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.71,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.85,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
+            y+=screenHeight*0.0244
+            x+=1
+
             self.canvas.update()
 
 
