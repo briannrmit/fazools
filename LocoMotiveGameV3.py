@@ -357,6 +357,7 @@ class startWindow(object):
         self.frame=Frame(self.r)
         self.frame.pack(fill="both",expand=True)
         self.r.lift()
+        self.r.attributes("-topmost", True)
         self.b=Button(self.frame,text="Add Human Player",command=self.popup)
         self.b.pack()
         self.b2=Button(self.frame,text="Add Computer Player",command=self.addComputer)
