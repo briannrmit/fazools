@@ -96,7 +96,7 @@ class mainPlayingBoard(object):
         self.canvas.create_text((screenWidth-screenWidth/7*1.5), 20, fill="black", font="courier 25 bold",
                                 text ="Loco Motive", width=screenWidth*0.73, anchor="nw")
         mapPic=Image.open("board2.png")
-        picWidth=int(screenWidth/10*7.2)
+        picWidth=int(screenWidth/10*6.8)
         picHeight=int(screenHeight/10*8.5)
         resizedMap=mapPic.resize((picWidth, picHeight),Image.ANTIALIAS)
         imageMap = ImageTk.PhotoImage(resizedMap)
@@ -112,7 +112,7 @@ class mainPlayingBoard(object):
         photoLabel2=Label(image=imageScoreboard)
         photoLabel2.image=imageScoreboard
         photoLabel2.pack()
-        self.canvas.create_image(screenWidth-screenWidth/7*1.9,screenHeight/2, image=imageScoreboard,anchor = NW)
+        self.canvas.create_image(screenWidth-screenWidth/7*2.1,screenHeight/20*11, image=imageScoreboard,anchor = NW)
         blueCarPic=Image.open("carriage_blue.png")
         picWidth=int(screenWidth/10*0.91)
         picHeight=int(screenHeight/10*1.12)
@@ -192,25 +192,25 @@ class mainPlayingBoard(object):
           #                      text ="x "+str(p1LocoNum), width=1200, anchor="nw")
         self.b1 = tk.Button(self.root, text = " Carriage card",font=("courier", 15),  command =self.drawTrainCards,
                             anchor = 'w',width = 15,height = 2,activebackground = "#33B5E5")
-        pickcarriagecard_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.8, screenHeight/15*1.5, anchor='nw', window=self.b1)    
+        pickcarriagecard_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.2, screenHeight/15*1.5, anchor='nw', window=self.b1)    
         self.b2 = tk.Button(self.root, text = "   Route card",font=("courier", 15),  command = self.drawRouteCards,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*0.8, screenHeight/15*1.5, anchor='nw', window=self.b2)
+        pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.1, screenHeight/15*1.5, anchor='nw', window=self.b2)
         self.b3 = tk.Button(self.root, text = " Claim a route",font=("courier", 15),  command = self.openClaimARoute,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.8, screenHeight/15*3.2, anchor='nw', window=self.b3)
+        claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.2, screenHeight/15*3.2, anchor='nw', window=self.b3)
         self.b4 = tk.Button(self.root, text = "    End Turn",font=("courier", 15),  command = root.quit,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*0.8, screenHeight/15*3.2, anchor='nw', window=self.b4)
+        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.1, screenHeight/15*3.2, anchor='nw', window=self.b4)
         howtoplay_button = tk.Button(self.root, text = "   How to Play",font=("courier", 15),  command = self.howToPlay,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
-        howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*5.5, anchor='nw', window=howtoplay_button)
+        howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.6, screenHeight/15*5.9, anchor='nw', window=howtoplay_button)
         quit_button = tk.Button(self.root, text = "      Quit",font=("courier", 15),  command = self.askQuit,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
-        quit_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*6.2, anchor='nw', window=quit_button)
+        quit_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.6, screenHeight/15*7, anchor='nw', window=quit_button)
         routecards_button = tk.Button(self.root, text = "  View Current Routes", font=("courier", 15),  command = self.displayRouteCards,
                                      anchor = 'w', width = 22,height = 1, activebackground = "#33B5E5")
-        routecards_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.4, screenHeight/15*4.5, anchor='nw', window=routecards_button)
+        routecards_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.7, screenHeight/15*4.9, anchor='nw', window=routecards_button)
         
         
          #self.after(1000,self.update())
@@ -644,7 +644,7 @@ def update(self):
         start=0
         while (start==0):
         
-            p1BlueNumText=self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1BlueNumText=self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
             p1YellowNumText=self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
@@ -660,16 +660,16 @@ def update(self):
                                 text ="x ", width=1200, anchor="nw")
             start=1
         x=0
-        y=screenHeight*0.60
+        y=screenHeight*0.65
         if not playerList:
-            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 13 bold", text =" ", width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.87,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.94,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.73,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.70,y, fill="white", font="courier 13 bold", text =" ", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.82,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.89,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
             y+=screenHeight*0.0244
             x+=1
 
-        y=screenHeight*0.60
+        y=screenHeight*0.647
         x=0
         #if(x<len(playerList)):
             
@@ -715,11 +715,11 @@ def update(self):
             routesList=routesListInfo()
             carriagesList=carriagesListInfo()
             carriagesRemList=carriagesRemInfo()
-            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.87,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.94,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
-            y+=screenHeight*0.0244
+            self.canvas.create_text(screenWidth*0.72,y, fill="white", font="courier 13 bold", text =str(routesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 13 bold", text =str(playerList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.84,y, fill="white", font="courier 13 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.91,y, fill="white", font="courier 13 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
+            y+=screenHeight*0.0243
             x+=1
             if not root.isStopped:
                 self.canvas.update()
