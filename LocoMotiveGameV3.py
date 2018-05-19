@@ -422,6 +422,7 @@ class mainPlayingBoard(object):
 
     def displayRouteCards(self):
         # Aidan - call your class function here
+        print("Needs stuff here")
         
         
 
@@ -670,23 +671,23 @@ def update(self):
 
         y=screenHeight*0.60
         x=0
-        if(x<len(playerList)):
+        #if(x<len(playerList)):
             
-            routesList=routesListInfo()
-            carriagesList=carriagesListInfo()
-            carriagesRemList=carriagesRemInfo()
-            print (playerList)
-            print (routesList)
-            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.87,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.94,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
-            y+=screenHeight*0.0244
-            x+=1
-            if not root.isStopped:
-                self.canvas.update()
+         #   routesList=routesListInfo()
+         #   carriagesList=carriagesListInfo()
+         #   carriagesRemList=carriagesRemInfo()
+         #   print (playerList)
+         #   print (routesList)
+         #   self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
+         #   self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
+         #   self.canvas.create_text(screenWidth*0.87,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
+         #   self.canvas.create_text(screenWidth*0.94,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
+         #   y+=screenHeight*0.0244
+         #   x+=1
+         #   if not root.isStopped:
+         #       self.canvas.update()
             
-        while (cardClick>=0):
+        while (cardClick>=0 and x<len(playerList)):
             self.canvas.after(2000)
             self.canvas.delete(p1BlueNumText)
             self.canvas.delete(p1YellowNumText)
@@ -711,6 +712,15 @@ def update(self):
                                 text ="x "+str(p1PinkNum[cardClick]), width=1200, anchor="nw")
             p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1LocoNum[cardClick]), width=1200, anchor="nw")
+            routesList=routesListInfo()
+            carriagesList=carriagesListInfo()
+            carriagesRemList=carriagesRemInfo()
+            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.87,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.94,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
+            y+=screenHeight*0.0244
+            x+=1
             if not root.isStopped:
                 self.canvas.update()
         
