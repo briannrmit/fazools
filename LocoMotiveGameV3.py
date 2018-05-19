@@ -12,10 +12,13 @@ from functools import partial
 
 
 #https://www.blog.pythonlibrary.org/2012/07/26/tkinter-how-to-show-hide-a-window/
+#http://zetcode.com/gui/tkinter/layout/
 
 playerList=[]
 compList=[]
 cardList=[]
+keptRouteCardList=[]
+discardList=[]
 
 
 blueNum1=0
@@ -35,6 +38,7 @@ p1LocoNum=[0]
 p1Routes=0
 p1Carriages=0
 p1CarriageRem=40
+
 
 p1Turn=0
 cardClick=0
@@ -82,13 +86,14 @@ t=0
 class mainPlayingBoard(object):
     def __init__(self,parent):
         """Constructor"""
+        root.isStopped = False
         self.root=parent
         self.root.title(" Main Loco Motive Playing Board")
         self.frame=Frame(parent)
         self.frame.pack(fill="both",expand=True)
         self.canvas=Canvas(self.frame, width=screenWidth, height=screenHeight,background="#DCDCDC")
         self.canvas.pack(fill="both", expand=True)
-        self.canvas.create_text((screenWidth-screenWidth/7*1.5), 20, fill="green", font="courier 25 bold",
+        self.canvas.create_text((screenWidth-screenWidth/7*1.5), 20, fill="black", font="courier 25 bold",
                                 text ="Loco Motive", width=screenWidth*0.73, anchor="nw")
         mapPic=Image.open("board2.png")
         picWidth=int(screenWidth/10*7.2)
@@ -188,21 +193,24 @@ class mainPlayingBoard(object):
         self.b1 = tk.Button(self.root, text = " Carriage card",font=("courier", 15),  command =self.drawTrainCards,
                             anchor = 'w',width = 15,height = 2,activebackground = "#33B5E5")
         pickcarriagecard_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.8, screenHeight/15*1.5, anchor='nw', window=self.b1)    
-        self.b2 = tk.Button(self.root, text = "   Route card",font=("courier", 15),  command = self.openDrawRouteCards,
+        self.b2 = tk.Button(self.root, text = "   Route card",font=("courier", 15),  command = self.drawRouteCards,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
         pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*0.8, screenHeight/15*1.5, anchor='nw', window=self.b2)
         self.b3 = tk.Button(self.root, text = " Claim a route",font=("courier", 15),  command = self.openClaimARoute,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.8, screenHeight/15*3.5, anchor='nw', window=self.b3)
+        claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.8, screenHeight/15*3.2, anchor='nw', window=self.b3)
         self.b4 = tk.Button(self.root, text = "    End Turn",font=("courier", 15),  command = root.quit,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
-        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*0.8, screenHeight/15*3.5, anchor='nw', window=self.b4)
+        endturn_button_window = self.canvas.create_window(screenWidth-screenWidth/7*0.8, screenHeight/15*3.2, anchor='nw', window=self.b4)
         howtoplay_button = tk.Button(self.root, text = "   How to Play",font=("courier", 15),  command = self.howToPlay,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
         howtoplay_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*5.5, anchor='nw', window=howtoplay_button)
-        quit_button = tk.Button(self.root, text = "   Quit",font=("courier", 15),  command = self.askQuit,
+        quit_button = tk.Button(self.root, text = "      Quit",font=("courier", 15),  command = self.askQuit,
                                      anchor = 'w', width = 18,height = 1, activebackground = "#33B5E5")
         quit_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.3, screenHeight/15*6.2, anchor='nw', window=quit_button)
+        routecards_button = tk.Button(self.root, text = "  View Current Routes", font=("courier", 15),  command = self.displayRouteCards,
+                                     anchor = 'w', width = 22,height = 1, activebackground = "#33B5E5")
+        routecards_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.4, screenHeight/15*4.5, anchor='nw', window=routecards_button)
         
         
          #self.after(1000,self.update())
@@ -211,6 +219,9 @@ class mainPlayingBoard(object):
 
     def askQuit(self):
         if messagebox.askokcancel("Are you sure you want to quit?"):
+            root.isStopped=True
+            global keptRouteCardList
+            print (keptRouteCardList)
             root.destroy()
     def hide(self):
         """"""
@@ -277,6 +288,85 @@ class mainPlayingBoard(object):
     
 
 
+    def drawRouteCards(self):
+        
+        toplevel = Toplevel()
+        global p1Turn
+        #if p1Turn==0:
+        w=720
+        #else:
+         #   w=340
+        label1=Label(toplevel,text="Route Cards Drawn",font=("courier", 12,),width=w, height=280)
+        #self.original_frame=original
+        toplevel.root=toplevel
+        
+        #print(self)
+        
+        toplevel.canvas = Canvas(toplevel, width=w, height=280,background="#DCDCDC")
+        #toplevel.canvas.pack(fill="both", expand=True)
+        toplevel.frame=Frame(toplevel.root)
+        #toplevel.frame.pack(fill="both",expand=True)
+        imageList=randomRouteCardList()
+        print (imageList)
+        #i=0
+        #x=20
+        #column=0
+        #while (i<len(imageList)):
+        route_image_1= imageList[0]
+        photoLabel=Label(toplevel,image=route_image_1)
+        photoLabel.image=route_image_1
+            #photoLabel.pack()
+            #routeCard=toplevel.canvas.create_image(x,20, image=image,anchor = NW)
+        photoLabel.grid(row=0, column=0,columnspan=2, sticky=NW)
+            #i+=1
+            #x+=220
+            #column+=2
+        route_image_2= imageList[1]
+        photoLabel=Label(toplevel,image=route_image_2)
+        photoLabel.image=route_image_2
+            #photoLabel.pack()
+            #routeCard=toplevel.canvas.create_image(x,20, image=image,anchor = NW)
+        photoLabel.grid(row=0, column=2,columnspan=2, sticky=NW)
+        route_image_3= imageList[2]
+        photoLabel=Label(toplevel,image=route_image_3)
+        photoLabel.image=route_image_3
+            #photoLabel.pack()
+            #routeCard=toplevel.canvas.create_image(x,20, image=image,anchor = NW)
+        photoLabel.grid(row=0, column=4,columnspan=2, sticky=NW)
+        #toplevel.b_ok = tk.Button(toplevel.root, text = " OK",font=("courier", 15),  command = toplevel.root.destroy, anchor = 'w', width = 5,height = 2, activebackground = "#33B5E5")
+        #ok_button_window = toplevel.canvas.create_window(w-75, 200, anchor='nw', window=toplevel.b_ok)
+        options1=["Keep","Discard"]
+        variable1=StringVar(toplevel)
+        variable1.set(options1[0])
+        options2=["Keep","Discard"]
+        variable2=StringVar(toplevel)
+        variable2.set(options2[0])
+        options3=["Keep","Discard"]
+        variable3=StringVar(toplevel)
+        variable3.set(options3[0])
+        #menu1=OptionMenu(toplevel,variable,*options)
+        #menu_button_window = toplevel.canvas.create_window(w+100, 200, anchor='nw', window=menu1)
+        #menu1.pack()
+        #i=0
+        
+        #column=0
+        #while(i<len(imageList)):
+        keep_button_1=tk.Radiobutton(toplevel,text="Keep", value="Keep", command=keep1(imageList[0],variable1),variable=variable1)
+        keep_button_1.grid(row=1,column=0)
+        discard_button_1=tk.Radiobutton(toplevel,text="Discard", value="Discard", command=keep1(imageList[0],variable1),variable=variable1)
+        discard_button_1.grid(row=2,column=0)
+        keep_button_2=tk.Radiobutton(toplevel,text="Keep", value="Keep", command=keep2(imageList[1],variable2),variable=variable2)
+        keep_button_2.grid(row=1,column=2)
+        discard_button_2=tk.Radiobutton(toplevel,text="Discard", value="Discard", command=keep2(imageList[1],variable2),variable=variable2)
+        discard_button_2.grid(row=2,column=2)
+        keep_button_3=tk.Radiobutton(toplevel,text="Keep", value="Keep", command=keep3(imageList[2],variable3),variable=variable3)
+        keep_button_3.grid(row=1,column=4)
+        discard_button_3=tk.Radiobutton(toplevel,text="Discard", value="Discard", command=keep3(imageList[2],variable3),variable=variable3)
+        discard_button_3.grid(row=2,column=4)
+        toplevel.b_ok = tk.Button(toplevel.root, text = " OK",font=("courier", 15),  command = toplevel.root.destroy, anchor = 'w', width = 5,height = 1, activebackground = "#33B5E5")
+        toplevel.b_ok.grid(row=2,column=5)
+        p1Turn+=1
+
     def openStartMenu(self):
         """"""
         #self.hide()
@@ -330,6 +420,50 @@ class mainPlayingBoard(object):
 
 
 
+    def displayRouteCards(self):
+        # Aidan - call your class function here
+        
+        
+
+
+#add you clesses and functions here.  The list you want to display is keptRouteCardList.
+        #It's currently creating a list of route cards but it's not working properly.  It's
+        #working enough to make your stuff work though.
+
+
+
+
+
+def keep1(image,variable1):
+    global keptRouteCardList
+    kept=variable1.get()
+    if kept=="Keep":
+        keptRouteCardList.append(image)
+        
+    if kept=="Discard":
+        keptRouteCardList.remove(image)
+
+def keep2(image,variable2):
+    global keptRouteCardList
+    kept=variable2.get()
+    if kept=="Keep":
+        keptRouteCardList.append(image)
+        
+    if kept=="Discard":
+        keptRouteCardList.remove(image)
+
+def keep3(image,variable3):
+    global keptRouteCardList
+    kept=variable3.get()
+    if kept=="Keep":
+        keptRouteCardList.append(image)
+        
+    if kept=="Discard":
+        keptRouteCardList.remove(image)
+
+
+    
+    
 
 class startWindow(object):
     def __init__(self,parent):
@@ -373,7 +507,7 @@ class startWindow(object):
         compPlayer="Computer "+str(compNum)
         global playerList
         playerList.append(compPlayer)
-        print(playerList)
+        #print(playerList)
      
     def entryValue(self):
         print (playerList)
@@ -402,7 +536,21 @@ class popupWindow(object):
         self.top.destroy()
 
 
-
+def randomRouteCardList():
+    playerXRouteCard = []
+    playerXRouteCardSmall = [None]*3
+    playerXRouteCard.append(createRandomRoute())
+    playerXRouteCard.append(createRandomRoute())
+    playerXRouteCard.append(createRandomRoute())
+    arraySize = len(playerXRouteCard)
+    for x in range(0,arraySize) :
+        b,g,r = cv2.split(playerXRouteCard[x])
+        playerXRouteCard[x] = cv2.merge((r,g,b))
+        im = Image.fromarray(playerXRouteCard[x])
+        playerXRouteCard[x] = ImageTk.PhotoImage(image=im)
+        i = im.resize((200, 152), Image.ANTIALIAS)
+        playerXRouteCardSmall[x] = ImageTk.PhotoImage(image=i)
+    return(playerXRouteCardSmall)
 
 
 def cardList():
@@ -497,30 +645,46 @@ def update(self):
         
             p1BlueNumText=self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="green", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
-            p1YellowNumText=self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1YellowNumText=self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
-            p1RedNumText=self.canvas.create_text(screenWidth/11*3+screenWidth/22*2+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1RedNumText=self.canvas.create_text(screenWidth/11*3+screenWidth/22*2+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
-            p1GreenNumText=self.canvas.create_text(screenWidth/11*4+screenWidth/22*3+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1GreenNumText=self.canvas.create_text(screenWidth/11*4+screenWidth/22*3+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
-            p1OrangeNumText=self.canvas.create_text(screenWidth/11*5+screenWidth/22*4+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1OrangeNumText=self.canvas.create_text(screenWidth/11*5+screenWidth/22*4+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
-            p1PinkNumText=self.canvas.create_text(screenWidth/11*6+screenWidth/22*5+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1PinkNumText=self.canvas.create_text(screenWidth/11*6+screenWidth/22*5+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
-            p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
             start=1
         x=0
-        y=screenHeight*0.63
+        y=screenHeight*0.60
         if not playerList:
-            self.canvas.create_text(screenWidth*0.68,y, fill="white", font="courier 15 bold", text ="Player", width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.71,y, fill="white", font="courier 12 bold", text ="0", width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text ="0", width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.85,y, fill="white", font="courier 15 bold", text ="40", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 13 bold", text =" ", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.87,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.94,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
             y+=screenHeight*0.0244
             x+=1
 
-
+        y=screenHeight*0.60
+        x=0
+        if(x<len(playerList)):
+            
+            routesList=routesListInfo()
+            carriagesList=carriagesListInfo()
+            carriagesRemList=carriagesRemInfo()
+            print (playerList)
+            print (routesList)
+            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.87,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
+            self.canvas.create_text(screenWidth*0.94,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
+            y+=screenHeight*0.0244
+            x+=1
+            if not root.isStopped:
+                self.canvas.update()
             
         while (cardClick>=0):
             self.canvas.after(2000)
@@ -533,42 +697,28 @@ def update(self):
             self.canvas.delete(p1LocoNumText)
             self.canvas.update()
             self.canvas.after(1)
-            p1BlueNumText=self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1BlueNumText=self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1BlueNum[cardClick]), width=1200, anchor="nw")
-            p1YellowNumText=self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1YellowNumText=self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1YellowNum[cardClick]), width=1200, anchor="nw")
-            p1RedNumText=self.canvas.create_text(screenWidth/11*3+screenWidth/22*2+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1RedNumText=self.canvas.create_text(screenWidth/11*3+screenWidth/22*2+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1RedNum[cardClick]), width=1200, anchor="nw")
-            p1GreenNumText=self.canvas.create_text(screenWidth/11*4+screenWidth/22*3+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1GreenNumText=self.canvas.create_text(screenWidth/11*4+screenWidth/22*3+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1GreenNum[cardClick]), width=1200, anchor="nw")
-            p1OrangeNumText=self.canvas.create_text(screenWidth/11*5+screenWidth/22*4+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1OrangeNumText=self.canvas.create_text(screenWidth/11*5+screenWidth/22*4+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1OrangeNum[cardClick]), width=1200, anchor="nw")
-            p1PinkNumText=self.canvas.create_text(screenWidth/11*6+screenWidth/22*5+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1PinkNumText=self.canvas.create_text(screenWidth/11*6+screenWidth/22*5+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1PinkNum[cardClick]), width=1200, anchor="nw")
-            p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="green", font="courier 25 bold",
+            p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x "+str(p1LocoNum[cardClick]), width=1200, anchor="nw")
-            self.canvas.update()
+            if not root.isStopped:
+                self.canvas.update()
         
-            y=screenHeight*0.63
-        x=0
-        while(x<len(playerList)):
-            
-            routesList=routesListInfo()
-            carriagesList=carriagesListInfo()
-            carriagesRemList=carriagesRemInfo()
-            print (playerList)
-            print (routesList)
-            self.canvas.create_text(screenWidth*0.68,y, fill="white", font="courier 15 bold", text =str(routesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.71,y, fill="white", font="courier 12 bold", text =str(playerList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.78,y, fill="white", font="courier 15 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.85,y, fill="white", font="courier 15 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
-            y+=screenHeight*0.0244
-            x+=1
+        
 
+
+        if not root.isStopped:
             self.canvas.update()
-
-
-        self.canvas.update()
 
 
 if __name__ == "__main__":
@@ -579,7 +729,9 @@ if __name__ == "__main__":
     app = mainPlayingBoard(root)
     if not playerList:
             startWindow(root)
-    update(app)
+    
+    if not root.isStopped:
+        update(app)
     root.mainloop()
     
 
