@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
-#import numpy as np 
+import numpy as np 
 from PIL import ImageTk, Image
 from routeCardsAidanwithfloor import createRandomRoute #Will need this file in same directory
 import cv2
@@ -21,6 +21,8 @@ keptRouteCardList=[]
 discardList=[]
 
 
+
+
 blueNum1=0
 greenNum1=0
 redNum1=0
@@ -38,11 +40,61 @@ p1LocoNum=[0]
 p1Routes=0
 p1Carriages=0
 p1CarriageRem=40
+resizedMap=""
 
 
 p1Turn=0
 cardClick=0
 index = 0
+
+routeScoresList = {
+    'BroomeDarwin':7,
+    'KarrathaBroome':4,
+    'NewmanBroome':5,
+    'KarrathaNewman':2,
+    'NewmanLeonora':3,
+    'MtmagnetNewman':3,
+    'SharkbayMtmagnet':2,
+    'MtmagnetLeonora':2,
+    'PerthMtmagnet':2,
+    'AugustaPerth':1,
+    'AugustaAlbany':2,
+    'AlbanyEsperance':3,
+    'EsperanceBordervillage':4,
+    'LeonoraEsperance':5,
+    'EsperanceAlicesprings':6,
+    'HallscreekAlicesprings':5,
+    'BroomeHallscreek':3,
+    'DarwinAlicesprings':7,
+    'DarwinNhulunbuy':3,
+    'NhulunbuyBurketown':4,
+    'AlicespringsBurketown':5,
+    'BurketownKarumba':1,
+    'AlicespringsCooberpedy':5,
+    'BordervillageAdelaide':6,
+    'CooberpedyAdelaide':3,
+    'AdelaidePortland':4,
+    'CooberpedyMtisa':7,
+    'KarumbaMtisa':4,
+    'PortlandMelbourne':2,
+    'KarumbaCapeyork':6,
+    'CapeyorkCooktown':2,
+    'CooktownMackay':2,
+    'CapeyorkMackay':6,
+    'MtisaMackay':3,
+    'MackayBundaberg':4,
+    'MtisaBourke':4,
+    'BourkeBundaberg':5,
+    'BundabergBrisbane':2,
+    'MilduraBourke':3,
+    'MelbourneMildura':3,
+    'HobartMelbourne':4,
+    'MelbourneCanberra':3,
+    'MelbourneSydney':7,
+    'CanberraSydney':3,
+    'BourkeSydney':4,
+    'SydneyBrisbane':4
+}
 
 xIndex=[778, 796, 805, 811, 835, 853, 869, 873, 863, 840, 852, 786,
         785, 770, 882, 904, 923, 936, 726, 758, 765, 774, 794, 956,
@@ -80,7 +132,9 @@ yIndex=[114, 118, 146, 102, 120, 142, 168, 199, 226, 196, 224, 169,
         598, 595, 551, 506, 480]
 
 t=0
-
+claimedSpacesX=[3000,-100]
+claimedSpacesY=[3000,-100]
+player1Colour="smallRedTrak.png"
 
 
 class mainPlayingBoard(object):
@@ -95,6 +149,7 @@ class mainPlayingBoard(object):
         self.canvas.pack(fill="both", expand=True)
         self.canvas.create_text((screenWidth-screenWidth/7*1.5), 20, fill="black", font="courier 25 bold",
                                 text ="Loco Motive", width=screenWidth*0.73, anchor="nw")
+        global resizedMap
         mapPic=Image.open("board2.png")
         picWidth=int(screenWidth/10*6.8)
         picHeight=int(screenHeight/10*8.5)
@@ -196,7 +251,7 @@ class mainPlayingBoard(object):
         self.b2 = tk.Button(self.root, text = "   Route card",font=("courier", 15),  command = self.drawRouteCards,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
         pickroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*1.1, screenHeight/15*1.5, anchor='nw', window=self.b2)
-        self.b3 = tk.Button(self.root, text = " Claim a route",font=("courier", 15),  command = self.openClaimARoute,
+        self.b3 = tk.Button(self.root, text = " Claim a route",font=("courier", 15),  command = self.claimARoute,
                             anchor = 'w', width = 15,height = 2, activebackground = "#33B5E5")
         claimroute_button_window = self.canvas.create_window(screenWidth-screenWidth/7*2.2, screenHeight/15*3.2, anchor='nw', window=self.b3)
         self.b4 = tk.Button(self.root, text = "    End Turn",font=("courier", 15),  command = root.quit,
@@ -220,21 +275,51 @@ class mainPlayingBoard(object):
     def askQuit(self):
         if messagebox.askokcancel("Are you sure you want to quit?"):
             root.isStopped=True
-            global keptRouteCardList
-            print (keptRouteCardList)
+            #global keptRouteCardList
+            #print (keptRouteCardList)
             root.destroy()
+            closeEnd(root)
+            
+        
     def hide(self):
         """"""
         self.root.withdraw()
 
-    def openDrawTrainCards(self):
-        subFrame=drawTrainCards(self)
+    def button_callback(self,toplevel,button_num):
+        toplevel.destroy()
+        global numButton
+        numButton=button_num
+        #print(button_num)
+        if numButton==0:
+            #print ("Yes")
+            capeYToWeipa()
 
-    def openDrawRouteCards(self):
-        subFrame=drawRouteCards(self)
+    def claimARoute(self):
+        
+        toplevel=Toplevel()
+        toplevel.title("Which route would you like to claime?")
+        self.root=toplevel
+        self.frame=Frame(self.root)
+        self.frame.grid()
+        self.label=Label(self.frame, text="")
+        self.label.grid(row=0, column=0, columnspan=5)
+        self.list_of_button_ids=[]
+        allRoutesList=allRoutes()
+        i=0
+        while (i<len(allRoutesList)):
+            button = Button(self.frame, text=str(allRoutesList[i]), width = 27, height = 4, padx = 2, pady = 1,command=lambda i=i:self.button_callback(toplevel,i))
+            #command=lambda i=i:self.button_callback(parent,canvas,i) - does same as command above
+            this_row, this_col=divmod(i, 9)
+            button.grid(row=this_row+1, column=this_col)
+            self.list_of_button_ids.append(button)
+            i+=1
+    
 
-    def openClaimARoute(self):
-        subFrame=claimeARoute(self)
+
+
+    
+
+        
 
     def howToPlay(self):
         ABOUT_TEXT = """HOW TO PLAY
@@ -432,7 +517,14 @@ class mainPlayingBoard(object):
         #working enough to make your stuff work though.
 
 
+def allRoutes():
+    allRoutesList=["Cape York to Weipa","Cape York to Cooktown","CapeYork to Mackay","Cooktown to Mackay","Weipa to Karumba","Mackay to Bundaberg","Karumba to Burketown","Karumba to Mt Isa","Bundaberg to Brisbane", "Burketown to Nhulunbuy", "Nhulunbuy to Darwin","Darwin to Alice Springs Blue","Darwin to Alice Springs Grey","Brisbane to Sydney","Bundaberg to Bourke","Mt Isa to Coober Pedy","Mt Isa to Bourke","Sydney to Bourke","Bourke to Broken Hill","Sydney to Canberra","Broken Hill to Melbourne","Canberra to Melbourne","Sydney to Melbourne","Melbourne to Hobart","Melbourne to Portland","Adelaide to Portland","Adelaide to Coober Pedy","Adelaide to Ceduna","Mackay to Mt Isa","Adealide to Border Village","Ceduna to Border Village","Alice Springs to Border Village","alice Springs to Coober Pedy","Burketown to Alice Springs","Darwin to Broome","Alice Springs to Halls Creek","Broome to Halls Creek","Broome to Karatha","Broome to Newman","Karatha to Newman","Karatha to Exmouth","Exmouth to Carnarvon","Carnarvon to Mt Magnet","Newman to Mt Magnet","Newman to Karlgoolie 1","Newman to Karlgoolie 2","Mt Magnet to Karlgoolie","Karlgoolie to Border Village Yellow","Karlgoolie to Border Village Red","Esperance to Border Village","Albany to Esperance","Albany to Bunbury","Perth to Bunbury","Perth to Mt Magnet"]
+    #print(len(allRoutesList))
+    return (allRoutesList)
 
+def allRouteFunctions(i):
+    allRoutesFunctionsList=["capeYToWeipa()","capeToCooktown()","capeYToMackay()","cooktownToMackay()","weipaToKarumba","mackayToBundy()","Karumba to Burketown","Karumba to Mt Isa","Bundaberg to Brisbane", "Burketown to Nhulunbuy", "Nhulunbuy to Darwin","Darwin to Alice Springs Blue","Darwin to Alice Springs Grey","Brisbane to Sydney","Bundaberg to Bourke","Mt Isa to Coober Pedy","Mt Isa to Bourke","Sydney to Bourke","Bourke to Broken Hill","Sydney to Canberra","Broken Hill to Melbourne","Canberra to Melbourne","Sydney to Melbourne","Melbourne to Hobart","Melbourne to Portland","Adelaide to Portland","Adelaide to Coober Pedy","Adelaide to Ceduna","Mackay to Mt Isa","Adealide to Border Village","Ceduna to Border Village","Alice Springs to Border Village","alice Springs to Coober Pedy","Burketown to Alice Springs","Darwin to Broome","Alice Springs to Halls Creek","Broome to Halls Creek","Broome to Karatha","Broome to Newman","Karatha to Newman","Karatha to Exmouth","Exmouth to Carnarvon","Carnarvon to Mt Magnet","Newman to Mt Magnet","Newman to Karlgoolie 1","Newman to Karlgoolie 2","Mt Magnet to Karlgoolie","Karlgoolie to Border Village Yellow","Karlgoolie to Border Village Red","Esperance to Border Village","Albany to Esperance","Albany to Bunbury","Perth to Bunbury","Perth to Mt Magnet"]
+    action=allRoutesFunctionsList[i]
 
 
 def keep1(image,variable1):
@@ -536,6 +628,12 @@ class popupWindow(object):
         self.value=self.e.get()
         self.top.destroy()
 
+
+def capeYToWeipa():
+        #area = (778, 114, 808, 126)
+    print("Yes")
+    claimedSpacesX.append(int(math.floor(screenWidth*0.453)))
+    claimedSpacesY.append(int(math.floor(screenHeight*0.120)))
 
 def randomRouteCardList():
     playerXRouteCard = []
@@ -646,6 +744,7 @@ def update(self):
         
             p1BlueNumText=self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
+            
             p1YellowNumText=self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="black", font="courier 25 bold",
                                 text ="x ", width=1200, anchor="nw")
             p1RedNumText=self.canvas.create_text(screenWidth/11*3+screenWidth/22*2+10, screenHeight*0.91, fill="black", font="courier 25 bold",
@@ -660,13 +759,13 @@ def update(self):
                                 text ="x ", width=1200, anchor="nw")
             start=1
         x=0
-        y=screenHeight*0.65
+        y=screenHeight*0.647
         if not playerList:
             self.canvas.create_text(screenWidth*0.73,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
             self.canvas.create_text(screenWidth*0.70,y, fill="white", font="courier 13 bold", text =" ", width=1200, anchor="nw")
             self.canvas.create_text(screenWidth*0.82,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
             self.canvas.create_text(screenWidth*0.89,y, fill="white", font="courier 15 bold", text =" ", width=1200, anchor="nw")
-            y+=screenHeight*0.0244
+            y+=screenHeight*0.0243
             x+=1
 
         y=screenHeight*0.647
@@ -686,49 +785,55 @@ def update(self):
          #   x+=1
          #   if not root.isStopped:
          #       self.canvas.update()
-            
-        while (cardClick>=0 and x<len(playerList)):
-            self.canvas.after(2000)
-            self.canvas.delete(p1BlueNumText)
-            self.canvas.delete(p1YellowNumText)
-            self.canvas.delete(p1RedNumText)
-            self.canvas.delete(p1GreenNumText)
-            self.canvas.delete(p1OrangeNumText)
-            self.canvas.delete(p1PinkNumText)
-            self.canvas.delete(p1LocoNumText)
-            self.canvas.update()
-            self.canvas.after(1)
-            p1BlueNumText=self.canvas.create_text(screenWidth/11+10, screenHeight*0.91, fill="black", font="courier 25 bold",
-                                text ="x "+str(p1BlueNum[cardClick]), width=1200, anchor="nw")
-            p1YellowNumText=self.canvas.create_text(screenWidth/11*2+screenWidth/22+10, screenHeight*0.91, fill="black", font="courier 25 bold",
-                                text ="x "+str(p1YellowNum[cardClick]), width=1200, anchor="nw")
-            p1RedNumText=self.canvas.create_text(screenWidth/11*3+screenWidth/22*2+10, screenHeight*0.91, fill="black", font="courier 25 bold",
-                                text ="x "+str(p1RedNum[cardClick]), width=1200, anchor="nw")
-            p1GreenNumText=self.canvas.create_text(screenWidth/11*4+screenWidth/22*3+10, screenHeight*0.91, fill="black", font="courier 25 bold",
-                                text ="x "+str(p1GreenNum[cardClick]), width=1200, anchor="nw")
-            p1OrangeNumText=self.canvas.create_text(screenWidth/11*5+screenWidth/22*4+10, screenHeight*0.91, fill="black", font="courier 25 bold",
-                                text ="x "+str(p1OrangeNum[cardClick]), width=1200, anchor="nw")
-            p1PinkNumText=self.canvas.create_text(screenWidth/11*6+screenWidth/22*5+10, screenHeight*0.91, fill="black", font="courier 25 bold",
-                                text ="x "+str(p1PinkNum[cardClick]), width=1200, anchor="nw")
-            p1LocoNumText=self.canvas.create_text(screenWidth/11*7+screenWidth/22*6+10, screenHeight*0.91, fill="black", font="courier 25 bold",
-                                text ="x "+str(p1LocoNum[cardClick]), width=1200, anchor="nw")
+        global claimedSpacesX
+        global claimedSpacesY
+        global resizedMap    
+        
+        i=0
+        while (cardClick>=0):
+            self.canvas.after(500)
+            self.canvas.itemcget(p1BlueNumText,'text')
+            self.canvas.itemconfigure(p1BlueNumText, text= "x "+str(p1BlueNum[cardClick]))
+            self.canvas.itemcget(p1RedNumText,'text')
+            self.canvas.itemconfigure(p1RedNumText, text= "x "+str(p1RedNum[cardClick]))
+            self.canvas.itemcget(p1GreenNumText,'text')
+            self.canvas.itemconfigure(p1GreenNumText, text= "x "+str(p1GreenNum[cardClick]))
+            self.canvas.itemcget(p1YellowNumText,'text')
+            self.canvas.itemconfigure(p1YellowNumText, text= "x "+str(p1YellowNum[cardClick]))
+            self.canvas.itemcget(p1OrangeNumText,'text')
+            self.canvas.itemconfigure(p1OrangeNumText, text= "x "+str(p1OrangeNum[cardClick]))
+            self.canvas.itemcget(p1PinkNumText,'text')
+            self.canvas.itemconfigure(p1PinkNumText, text= "x "+str(p1PinkNum[cardClick]))
+            self.canvas.itemcget(p1LocoNumText,'text')
+            self.canvas.itemconfigure(p1LocoNumText, text= "x "+str(p1LocoNum[cardClick]))
             routesList=routesListInfo()
             carriagesList=carriagesListInfo()
             carriagesRemList=carriagesRemInfo()
-            self.canvas.create_text(screenWidth*0.72,y, fill="white", font="courier 13 bold", text =str(routesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 13 bold", text =str(playerList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.84,y, fill="white", font="courier 13 bold", text =str(carriagesList[x]), width=1200, anchor="nw")
-            self.canvas.create_text(screenWidth*0.91,y, fill="white", font="courier 13 bold", text =str(carriagesRemList[x]), width=1200, anchor="nw")
-            y+=screenHeight*0.0243
+            for z in range(len(playerList)):
+                self.canvas.create_text(screenWidth*0.72,y, fill="white", font="courier 13 bold", text =str(routesList[z]), width=1200, anchor="nw")
+                self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 13 bold", text =str(playerList[z]), width=1200, anchor="nw")
+                self.canvas.create_text(screenWidth*0.84,y, fill="white", font="courier 13 bold", text =str(carriagesList[z]), width=1200, anchor="nw")
+                self.canvas.create_text(screenWidth*0.91,y, fill="white", font="courier 13 bold", text =str(carriagesRemList[z]), width=1200, anchor="nw")
+                y+=screenHeight*0.0243
+            y=screenHeight*0.647
+            for i in range(len(claimedSpacesX)):
+                redTrak = Image.open('smallRedTrak.png')
+                area = (claimedSpacesX[i], claimedSpacesY[i])
+                resizedMap.paste(redTrak,area,redTrak)
+                mapImage= ImageTk.PhotoImage(resizedMap)
+                photoLabel=Label(image=mapImage)
+                photoLabel.image=mapImage
+                photoLabel.pack()
+                self.canvas.create_image(0,0, image=mapImage,anchor = NW)
+                i+=1
+                
+            
             x+=1
-            if not root.isStopped:
-                self.canvas.update()
-        
-        
-
-
-        if not root.isStopped:
+            
             self.canvas.update()
+
+        self.canvas.update()
+
 
 
 if __name__ == "__main__":
