@@ -1838,7 +1838,7 @@ def carriagesListInfo():
     global playerList
     numPlayers=len(playerList)
     global carriagesList
-    carriagesList=[6]*numPlayers
+    carriagesList=6
     #print (playerList)
     return(carriagesList)
 
@@ -1846,7 +1846,7 @@ def carriagesRemInfo():
     global playerList
     numPlayers=len(playerList)
     global carriageRemList
-    carriageRemList=[20]*numPlayers
+    carriageRemList=20
     return(carriageRemList)
 
 
