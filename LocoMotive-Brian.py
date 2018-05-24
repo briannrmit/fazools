@@ -1837,7 +1837,7 @@ def routesListInfo():
     global playerList
     numPlayers=len(playerList)
     global routesList
-    #routesList=0
+    routesList=[0]*numPlayers
     return (routesList)        
 
 def carriagesListInfo():
