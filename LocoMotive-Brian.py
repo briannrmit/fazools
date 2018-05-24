@@ -676,6 +676,9 @@ def capeYToWeipa(): #1
     global cardClick
     p1LocoNum[cardClick]-=1
     
+    global routesList
+    routesList=[0]*numPlayers
+    
     print (carriageRemList[scoreClick])
     print(carriagesList[scoreClick])
     scoreClick+=1
@@ -1838,7 +1841,7 @@ def carriagesListInfo():
     global playerList
     numPlayers=len(playerList)
     global carriagesList
-    carriagesList=6
+    carriagesList=math.randint(2,8)
     #print (playerList)
     return(carriagesList)
 
@@ -1846,7 +1849,7 @@ def carriagesRemInfo():
     global playerList
     numPlayers=len(playerList)
     global carriageRemList
-    carriageRemList=20
+    carriageRemList=math.randint(30,40)
     return(carriageRemList)
 
 
