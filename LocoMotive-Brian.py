@@ -645,7 +645,7 @@ class startWindow(object):
         numPlayers=len(playerList)
         routesList=[0]*numPlayers
         carriagesList=[0]*numPlayers
-        carriageRemList=[40]*numPlayers
+        carriageRemList=[30]
 
 
 class popupWindow(object):
