@@ -1837,14 +1837,14 @@ def routesListInfo():
     global playerList
     numPlayers=len(playerList)
     global routesList
-    routesList=[0]*numPlayers
+    #routesList=0
     return (routesList)        
 
 def carriagesListInfo():
     global playerList
     numPlayers=len(playerList)
     global carriagesList
-    carriagesList=random.randint(2,8)
+    carriagesList=20
     #print (playerList)
     return(carriagesList)
 
@@ -1852,7 +1852,7 @@ def carriagesRemInfo():
     global playerList
     numPlayers=len(playerList)
     global carriageRemList
-    carriageRemList=random.randint(30,40)
+    carriageRemList=40
     return(carriageRemList)
 
 
