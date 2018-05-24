@@ -1965,16 +1965,3 @@ if __name__ == "__main__":
 class drawRouteCards(object):
     def __init__(self,position):
         self.position = position
-© 2018 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
-Press h to open a hovercard with more details.
