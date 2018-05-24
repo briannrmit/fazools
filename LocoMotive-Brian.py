@@ -1945,7 +1945,7 @@ def update(self):
                 photoLabel.pack()
                 self.canvas.create_image(0,0, image=mapImage,anchor = NW)
                 self.canvas.itemcget(routesScore,'text')
-                self.canvas.itemconfigure(routesScore, text= testscore[i])
+                self.canvas.itemconfigure(routesScore, text= str(testscore[i]))
                 i+=1
             x+=1
             self.canvas.update()
