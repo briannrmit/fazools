@@ -677,7 +677,7 @@ def capeYToWeipa(): #1
     p1LocoNum[cardClick]-=1
     
     global routesList
-    routesList=[0]*numPlayers
+    routesList+=1
     
     print (carriageRemList[scoreClick])
     print(carriagesList[scoreClick])
@@ -699,6 +699,9 @@ def capeToCooktown(): #2
     carriagesList[turn]+=2
     carriageRemList[turn]-=2
     p1LocoNum[cardClick]-=2
+    
+    global routesList
+    routesList+=2
 
 def capeYToMackay(): #3
     claimedSpacesX.append(int(math.floor(screenWidth*0.476)))
