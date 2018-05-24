@@ -1925,7 +1925,7 @@ def update(self):
 
                 self.canvas.itemcget(routesScore,'text')
                 self.canvas.itemconfigure(routesScore, text= str(sum(testscore)))      
-                #self.canvas.create_text(screenWidth*0.72,y, fill="white", font="courier 13 bold", text =str(routesList[z]), width=1200, anchor="nw")
+                self.canvas.create_text(screenWidth*0.72,y, fill="white", font="courier 13 bold", text =str(sum(testscore)), width=1200, anchor="nw")
                 self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 13 bold", text =str(playerList[z]), width=1200, anchor="nw")
                 self.canvas.itemcget(carriagesScore,'text')
                 self.canvas.itemconfigure(carriagesScore, text= str(carriagesList))
