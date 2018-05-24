@@ -1920,10 +1920,10 @@ def update(self):
                 self.canvas.create_text(screenWidth*0.75,y, fill="white", font="courier 13 bold", text =str(playerList[z]), width=1200, anchor="nw")
                 self.canvas.itemcget(carriagesScore,'text')
                 self.canvas.itemconfigure(carriagesScore, text= str(carriagesList))
-                #self.canvas.create_text(screenWidth*0.84,y, fill="white", font="courier 13 bold", text =str(carriagesList), width=1200, anchor="nw")
+                self.canvas.create_text(screenWidth*0.84,y, fill="white", font="courier 13 bold", text =str(carriagesList), width=1200, anchor="nw")
                 self.canvas.itemcget(carriageRemScore,'text')
                 self.canvas.itemconfigure(carriageRemScore, text= str(carriageRemList))
-                #self.canvas.create_text(screenWidth*0.91,y, fill="white", font="courier 13 bold", text =str(carriagesRemList), width=1200, anchor="nw")
+                self.canvas.create_text(screenWidth*0.91,y, fill="white", font="courier 13 bold", text =str(carriagesRemList), width=1200, anchor="nw")
                 y+=screenHeight*0.0243
             y=screenHeight*0.647
             for i in range(len(claimedSpacesX)):
