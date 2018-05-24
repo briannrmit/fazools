@@ -1948,7 +1948,7 @@ def update(self):
             x+=1
             
             self.canvas.itemcget(routesScore,'text')
-            self.canvas.itemconfigure(routesScore, text= str(testscore[len(testscore)-1]))              
+            self.canvas.itemconfigure(routesScore, text= str(sum(testscore)))              
                 
 
             self.canvas.update()
