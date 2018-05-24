@@ -142,7 +142,7 @@ yIndex=[114, 118, 146, 102, 120, 142, 168, 199, 226, 196, 224, 169,
 t=0
 claimedSpacesX=[3000,-100]
 claimedSpacesY=[3000,-100]
-testscore = [0,0]
+testscore = [0]
 player1Colour="smallRedTrak.png"
 
 
