@@ -142,7 +142,7 @@ yIndex=[114, 118, 146, 102, 120, 142, 168, 199, 226, 196, 224, 169,
 t=0
 claimedSpacesX=[3000,-100]
 claimedSpacesY=[3000,-100]
-testscore = [4]
+testscore = [0]
 player1Colour="smallRedTrak.png"
 
 
@@ -703,7 +703,6 @@ def capeToCooktown(): #2
     
     global routesList
     routesList+=2
-    testscore.append(2)
     testscore.append(2)
 
 def capeYToMackay(): #3
@@ -1869,6 +1868,7 @@ def update(self):
         global routesList
         global carriageRemList
         global playerList
+        global testscore
         start=0
         while (start==0):
         
