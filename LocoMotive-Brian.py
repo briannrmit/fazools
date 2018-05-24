@@ -1945,14 +1945,14 @@ def update(self):
                 photoLabel.image=mapImage
                 photoLabel.pack()
                 self.canvas.create_image(0,0, image=mapImage,anchor = NW)
-
+                self.canvas.itemcget(routesScore,'text')
+                self.canvas.itemconfigure(routesScore, text= str(testscore[testcount]))  
+                testcount+=1
                 i+=1
             x+=1
             
-            self.canvas.itemcget(routesScore,'text')
-            self.canvas.itemconfigure(routesScore, text= str(testscore[testcount]))                
+             
 
-            testcount+=1
             self.canvas.update()
         self.canvas.update()
 
